@@ -16,19 +16,20 @@ function _init()
 -- 2: dialog
  mode=1
  
- 
  -- npc number:
  -- 1=mustang
  -- 2=postman
  -- 3=apprentice
- npc={{id=1,x=10,y=3}}
+ npc={{id=1,x=10,y=3},{id=2,x=8,y=6}}
 end
 
 function _draw()
- cls(0)
+ camx=p.x-60
+ camy=p.y-60
+ camera(camx,camy)
+ cls(5)
 	palt(0,false)
 	palt(14,true)
-	--sspr(0,96,32,32,0,20,64,64)
 	--sspr(32,96,32,32,64,20,64,64,true)
 	
 	map()
@@ -49,15 +50,20 @@ function update_diag()
  if(btnp(⬆️) and slct>1) slct-=1
  if(btnp(⬇️) and slct<#a) slct+=1
  if btnp(🅾️) then
-  nb=path[nb][slct]
+  nb=path[slct]
   if(nb==0 or nb==nil) mode=1 else change_dial()
  end
 end
 
 function change_dial()
  slct=1
- d,a=dall[nb],aall[nb]
- if(a==nil) a={"bye"}
+ if dall[chat]==nil then
+  -- nothing to say
+  mode=1
+ else
+  d,a,path=dall[chat][nb],aall[chat][nb],pall[chat][nb]
+  if(a==nil) a={"bye"}
+ end
 end
 
 function start_dial(id)
@@ -76,6 +82,7 @@ function update_move()
 	 if(btn(➡️)) p.o=3 x+=8
 	 if(btn(⬅️)) p.o=2 x-=8
 	 if(x!=p.x)y=p.y
+	 -- check collision
 	 if(fget(mget(x/8,y/8),0)) x,y=p.x,p.y
 	 for n in all(npc) do
 	 -- npc in path: stop moving, start chatting
@@ -91,19 +98,21 @@ function update_move()
 end
 -->8
 --dialog
-dall={"first !\nblabla","you said yes","you said no"}
-aall={{"yes","no","bye"},{"again","bye"}}
-path={{2,3},{1},{}}
+dmust={"first !\nblabla","you said yes","you said no"}
+dall={dmust}
+amust={{"yes","no","bye"},{"again","bye"}}
+aall={amust}
+pmust={{2,3},{1},{}}
+pall={pmust}
 slct=1
 
--- when a={}: add bye
-
--- chat: character id
+faces={192,196,200,204}
 -- nb: text id
 -- d=text, list of lines
 -- a=answers, list of lines
 -- s=current selected answers
 function prt_dial()
+ spr(faces[chat],camx+20,camy,4,4)
  local i=0
  for n=1,#d do
   if(sub(d,n,n)=="\n") i+=1
@@ -113,10 +122,10 @@ function prt_dial()
    if(sub(t,n,n)=="\n") i+=1
   end
  end
- local maxy = 11+6*(i+#a)
- rectfill(3,3,125,maxy,6)
- rect(3,3,125,maxy,7)
- cursor(5,5,0)
+ local maxy=8+6*(i+#a)
+ rectfill(3+camx,32+camy,125+camx,maxy+camy+32,6)
+ rect(3+camx,32+camy,125+camx,maxy+camy+32,7)
+ cursor(5+camx,34+camy,0)
  print(d)
  for i=1,#a do
   if i==slct then
@@ -127,7 +136,7 @@ function prt_dial()
     print(" "..a[i])
   end
  end
- 
+
 end
 __gfx__
 00000000ee000eeeee1111eeee000eee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
