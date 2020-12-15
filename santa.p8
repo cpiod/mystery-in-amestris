@@ -69,7 +69,7 @@ function _init()
   
  -- npc
  {id=1,x=34,y=9},
- {id=2,x=32,y=14,f=true},
+ {id=2,x=32,y=20,f=true},
 -- {id=4,x=5,y=6},
  
  -- tree
@@ -187,7 +187,8 @@ function cnt(t)
 end
 
 function prt_dial()
- local i=cnt(d)
+ local i_d=cnt(d)
+ local i=i_d
  for t in all(a) do
   i+=cnt(t)
  end
@@ -209,19 +210,20 @@ function prt_dial()
  rect(3+camx,24+camy+deltay,125+camx,maxy+camy+24+deltay,6)
  
  -- text
- cursor(5+camx,26+camy+deltay,7)
- print(d)
-  
+ local x=5+camx
+ local y=26+camy+deltay
+ print(d,x,y,7)
+ y+=(i_d+2)*6
  -- answers
- if(#a>0) print("") -- empty line
  for i=1,#a do
   if i==slct then
    color(12)
-   print(">"..a[i])
+   print(">"..a[i],x,y)
   else
    color(13)
-   print(" "..a[i])
+   print(" "..a[i],x,y)
   end
+  y+=6+6*cnt(a[i])
  end
 end
 
