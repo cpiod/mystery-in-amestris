@@ -7,9 +7,7 @@ __lua__
 function _init()
 -- o:
 -- 0=up, 1=down, 2=left, 3=right
- p={x=29*8,y=(20+5)*8,o=0,f=false}
- p.ox=p.x
- p.oy=p.y-5*8
+ p={x=8000,y=8000,o=0,f=false}
  
  camx=title_screen[1].x*8-60
  camy=title_screen[1].y*8-60
@@ -50,14 +48,17 @@ end
 title_screen={
 {x=29,y=27,dx=0,dy=-1},
 {x=29,y=18,dx=-1,dy=0},
-{x=8,y=18,dx=.5,dy=-.5},
+{x=12,y=18,dx=0,dy=-1},
+{x=12,y=8,dx=1,dy=0},
 {x=18,y=8,dx=1,dy=0},
 {x=35,y=8,dx=0,dy=1},
-{x=35,y=19,dx=.5,dy=-.5},
+{x=35,y=19,dx=1,dy=0},
+{x=42,y=19,dx=0,dy=-1},
 {x=42,y=12,dx=1,dy=0},
 {x=58,y=12,dx=0,dy=-1},
 {x=58,y=4,dx=-1,dy=0},
-{x=43,y=4,dx=-.5,dy=.5}}
+{x=43,y=4,dx=0,dy=1},
+{x=43,y=18,dx=-1,dy=0}}
 title_index=1
 
 function update_title()
@@ -76,6 +77,9 @@ function update_title()
 
  if btnp(🅾️) then
   mode=1
+  p={x=29*8,y=(20+5)*8,o=0,f=false}
+  p.ox=p.x
+  p.oy=p.y-5*8
   camx=p.x-60
   camy=p.y-68
   start_dial(9)
@@ -532,7 +536,7 @@ function _draw()
 	 sspr(48,96,3*8,4*8,camx+100,camy+9,3*8,4*8)	
 	 sspr(72,104,7*8,3*8,camx,camy+10,7*8*2,3*8*2)
 	 if t()%1<.8 then
-   print_center("press x to start",camx,camy+90,8)
+   print_center("press z to investigate",camx,camy+90,8)
   end
 	 local t="cpiod - 2020"
   print_center(t,camx,camy+120,2)
