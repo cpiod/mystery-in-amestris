@@ -2,7 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 29
 __lua__
 -- mystery in amestris
--- cpiod
+-- by cpiod
 
 function _init()
 -- o:
@@ -16,13 +16,9 @@ function _init()
 -- 1: move
 -- 2: dialog
 -- 3: title screen
-mode=3
+ mode=3
  
  
- dall[9]={"i should see mUSTANG first."}
- pall[9]={}
- aall[9]={}
-
  tele={{x1=45,y1=21,x2=115,y2=9,o=3},
  {x2=45,y2=21,x1=115,y1=9,o=2},
  {x1=8,y1=13,x2=94,y2=13,o=0},
@@ -42,47 +38,6 @@ function _update60()
   update_diag()
  elseif mode==3 then
   update_title()
- end
-end
-
-title_screen={
-{x=29,y=27,dx=0,dy=-1},
-{x=29,y=18,dx=-1,dy=0},
-{x=12,y=18,dx=0,dy=-1},
-{x=12,y=8,dx=1,dy=0},
-{x=18,y=8,dx=1,dy=0},
-{x=35,y=8,dx=0,dy=1},
-{x=35,y=19,dx=1,dy=0},
-{x=42,y=19,dx=0,dy=-1},
-{x=42,y=12,dx=1,dy=0},
-{x=58,y=12,dx=0,dy=-1},
-{x=58,y=4,dx=-1,dy=0},
-{x=43,y=4,dx=0,dy=1},
-{x=43,y=18,dx=-1,dy=0}}
-title_index=1
-
-function update_title()
- local s=title_screen[title_index]
- 
- local i2=
- (title_index==#title_screen)
-  and 2
-  or title_index+1
- n=title_screen[i2]
- camx+=s.dx/2
- camy+=s.dy/2
- if camx==n.x*8-60 and camy==n.y*8-60 then
-  title_index=i2
- end
-
- if btnp(🅾️) then
-  mode=1
-  p={x=29*8,y=(20+5)*8,o=0,f=false}
-  p.ox=p.x
-  p.oy=p.y-5*8
-  camx=p.x-60
-  camy=p.y-68
-  start_dial(9)
  end
 end
 
@@ -164,7 +119,6 @@ names={"rOY mUSTANG",
 "oWEN lOCKE",
 "vICTOR gREY",
 "mRS. cALVIN"}
-names[9]="aNNA bERKELEY"
 local s="a book"
 names[1000]=s
 names[1001]=s
@@ -193,10 +147,12 @@ function prt_dial()
  local deltay=98-maxy
  local namex=5
  -- name
- if faces[chat]!=nil then
+ local f=faces[chat]
+ if(chat>=900 and chat<1000) f=faces[9]
+ if f!=nil then
   namex+=20
-  spr(faces[chat],camx+5,camy+deltay,3,3)
-  if(chat!=9) spr(128,camx+98,camy+deltay,3,3,true)
+  spr(f,camx+5,camy+deltay,3,3)
+  if(chat<900) spr(128,camx+98,camy+deltay,3,3,true)
  end
  for i=-1,1 do
   for j=-1,1 do
@@ -245,8 +201,8 @@ function change_dial()
   d=dall[chat][nb]
   a=a or {}
   path=path or {}
-  if chat!=4 then -- no answer for thoughts
-   local str=chat<4 and "bye" or "(leave)"
+  if chat<900 or chat>=1000 then -- no answer for thoughts
+   local str=chat<10 and "bye" or "(leave)"
    if(#path>1 and #a!=#path) add(a,str)
    if(#path==0) a={str}
   end
@@ -272,7 +228,8 @@ pall={}
 aall={}
 
 -- prolog
-dall[9]={"my name is aNNA bERKELEY. as a\
+names[900]="aNNA bERKELEY"
+dall[900]={"my name is aNNA bERKELEY. as a\
 state alchemist i am known as\
 the mud alchemist because\
 that's how i once solved a\
@@ -286,8 +243,28 @@ gorgeous alchemists\".",
 investigate something? or is\
 it just a game for him?\
 i need to figure this out."}
-pall[9]={}
-aall[9]={{2},{3}}
+pall[900]={{2},{3}}
+
+for i=901,999 do
+ names[i]=names[900]
+end
+
+dall[901]={"i should see mUSTANG first."}
+
+dall[902]={
+"i won't leave until i sorted\
+this out."}
+
+dall[903]={
+"i don't feel like gardening."}
+
+dall[904]={"the flag of amestris. classy."}
+
+dall[905]={"the flag of amestris. classy.",
+"wait... there is something\
+behind!"}
+pall[905]={{2}}
+aall[905]={{"(look closer)"}}
 
 -- mustang
 dall[1]={
@@ -318,10 +295,6 @@ coffee as well?",
 pall[1]={{2,3,4,0},{4,0},{0},{2,0}}
 
 
-
-
-names[54]="a flag"
-dall[54]={"the flag of amestris. classy."}
 
 dall[1000]="    == equivalent exchange ==\
 alchemy is the science of\
@@ -379,13 +352,6 @@ dall[1004]={
 master key.\
 \
 you take it with you."}
-
-names[1005]="a flag"
-dall[1005]={"the flag of amestris. classy.",
-"wait... there is something\
-behind!"}
-pall[1005]={{2}}
-aall[1005]={{"(look closer)"}}
 
 names[1010]="a note on the entrance"
 dall[1010]={
@@ -457,13 +423,7 @@ experiments in progress,\
 proceed with caution."}
 
 names[1025]="a door"
-dall[1025]={
-"it's locked."}
-
-names[1026]="a watering can"
-dall[1026]={
-"i don't feel like gardening."}
-
+dall[1025]={"it's locked."}
 
 names[1027]="a tree"
 dall[1027]={"...\
@@ -483,7 +443,7 @@ dall[1030]={"it doesn't smell good. cheese\
 maybe?"}
 
 names[1031]="a door"
-dall[1031]={"the lock unlocks the door!"}
+dall[1031]={"the key unlocks the door!"}
 
 names[1032]="a door"
 dall[1032]={
@@ -494,7 +454,7 @@ dall[1033]={
 "it's locked."}
 
 -->8
---draw
+-- draw
 
 function draw_hero()
 	local s=11
@@ -534,7 +494,7 @@ function _draw()
 	if(mode==2)	prt_dial(d,a)
 	if mode==3 then
 	 sspr(48,96,3*8,4*8,camx+100,camy+9,3*8,4*8)	
-	 sspr(72,104,7*8,3*8,camx,camy+10,7*8*2,3*8*2)
+	 sspr(72,104,7*8,3*8,camx+1,camy+10,7*8*2,3*8*2)
 	 if t()%1<.8 then
    print_center("press z to investigate",camx,camy+90,8)
   end
@@ -557,18 +517,18 @@ end
  -- ordered back to front
  
  -- flags
- {id=54,x=41,y=9},
- {id=54,x=40,y=1},
- {id=54,x=28,y=23},
- {id=54,x=30,y=23},
- {id=54,x=15,y=13},
- {id=54,x=23,y=17},
- {id=54,x=25,y=13},
- {id=54,x=27,y=13},
- {id=54,x=32,y=6},
- {id=54,x=35,y=6},
- {id=54,x=22,y=2},
- {id=54,x=41,y=17},
+ {nbspr=54,id=904,x=41,y=9},
+ {nbspr=54,id=904,x=40,y=1},
+ {nbspr=54,x=28,y=23}, -- behind
+ {nbspr=54,x=30,y=23},
+ {nbspr=54,id=904,x=15,y=13},
+ {nbspr=54,id=904,x=23,y=17},
+ {nbspr=54,id=904,x=25,y=13},
+ {nbspr=54,id=904,x=27,y=13},
+ {nbspr=54,id=904,x=32,y=6},
+ {nbspr=54,id=904,x=35,y=6},
+ {nbspr=54,id=904,x=22,y=2},
+ {nbspr=54,id=904,x=41,y=17},
  
  -- outside door
  {nbspr=58,x=29,y=23}, 
@@ -741,15 +701,14 @@ end
  {nbspr=168,id=1023,x=42,y=3,f=true},
 
  -- watering
- {nbspr=155,id=1026,x=56,y=4},
+ {nbspr=155,id=903,x=56,y=4},
 
  -- greenhouse sign
  {nbspr=-1,id=1024,x=53,y=10},
  -- greenhouse sign
  {nbspr=-1,id=1028,x=33,y=18},
-
- -- greenhouse door
--- {nbspr=-1,id=1025,x=60,y=5},
+ -- front door
+ {nbspr=-1,id=902,x=29,y=23},
   
  -- plants
  {nbspr=142,x=59,y=7},
@@ -853,7 +812,7 @@ end
  {nbspr=111,x=15,y=3}}
   
  st_key_g=true
- st_key_l=false
+ st_key_l=true
  st_white_b=false
  st_talk_m=false
  st_flag=false
@@ -867,14 +826,15 @@ end
  add(npc,door_g2)
  door_l={nbspr=-1,id=1033,x=8,y=13}
  add(npc,door_l)
- flag_l={nbspr=54,id=1005,x=8,y=13}
+ flag_l={nbspr=54,id=905,x=8,y=13}
  add(npc,flag_l)
  wbook={nbspr=242,id=1003,x=109,y=25}
  add(npc,wbook)
- wall1={nbspr=-1,id=9,x=24,y=18}
- add(npc,wall1)
- wall2={nbspr=-1,id=9,x=34,y=19}
- add(npc,wall2)
+ wall1={nbspr=-1,id=901,x=24,y=18}
+-- add(npc,wall1)
+ wall2={nbspr=-1,id=901,x=34,y=19}
+-- add(npc,wall2)
+-- todo
 
 function check_update(chat,nb)
  if not st_talk_m and chat==1 then
@@ -896,11 +856,54 @@ function check_update(chat,nb)
   mset(8,13,229)
   del(npc,door_l)
   return 1031,1
- elseif chat==1005 and nb==2 then
+ elseif chat==905 and nb==2 then
   del(npc,flag_l)
  elseif chat==1003 then
   st_key_l=true
   del(npc,wbook)
+ end
+end
+-->8
+-- title screen
+
+title_screen={
+{x=29,y=27,dx=0,dy=-1},
+{x=29,y=18,dx=-1,dy=0},
+{x=12,y=18,dx=0,dy=-1},
+{x=12,y=8,dx=1,dy=0},
+{x=18,y=8,dx=1,dy=0},
+{x=35,y=8,dx=0,dy=1},
+{x=35,y=19,dx=1,dy=0},
+{x=42,y=19,dx=0,dy=-1},
+{x=42,y=12,dx=1,dy=0},
+{x=58,y=12,dx=0,dy=-1},
+{x=58,y=4,dx=-1,dy=0},
+{x=43,y=4,dx=0,dy=1},
+{x=43,y=18,dx=-1,dy=0}}
+title_index=1
+
+function update_title()
+ local s=title_screen[title_index]
+ 
+ local i2=
+ (title_index==#title_screen)
+  and 2
+  or title_index+1
+ n=title_screen[i2]
+ camx+=s.dx/2
+ camy+=s.dy/2
+ if camx==n.x*8-60 and camy==n.y*8-60 then
+  title_index=i2
+ end
+
+ if btnp(🅾️) then
+  mode=1
+  p={x=29*8,y=(20+5)*8,o=0,f=false}
+  p.ox=p.x
+  p.oy=p.y-5*8
+  camx=p.x-60
+  camy=p.y-68
+  start_dial(900)
  end
 end
 __gfx__
@@ -976,9 +979,9 @@ eeee79999ffff997eeeeeeee1003304400110221b33ee3ee2c5152111cc2511112c15112eddd1eee
 eee7999993ff3f997eeeeeee100bb09900cc0881b33eb33e25111251cc121511c2111512e1111eeeeee999ee2c333332eeeeeeeee3ee33eeeee333ee3333b3b3
 eee79999ffffff997eeeeeee100bb09900cc0881b33eb33e2111121cc112115cc2111152e10e1eeeeeeeeeee23333332eeeeeeeee3eee3eee239322e3333b3b3
 eee79999ffffff997eeeeeee1111111111111111b33eb33e222222222222222222222222e1ee1eeeeeeeeeee22222222eeeeeeee222e222ee32323ee33333333
-ee79999ff5ffff997eeeeeee10220440000033013334b3342222222222222222222222222222222233333332eeeeeeeeeeee3bee828eeeeee322233e33333333
-ee79999fff55f9997eeeeeee108809900000bb0144443334233cc2333332cc333233cc323332cc3333333332ebbbeeeeb3e3beee888eeeeee32223e83b3b3333
-ee799999ffff99997eeeeeee108809900000bb014444444423cc32333332cb3b323cc3323332c33333333332beeebeebeb34ee3b888e828e3e8223e33b3b3333
+ee79999ff5ffff997eeeeeee10220440011033013334b3342222222222222222222222222222222233333332eeeeeeeeeeee3bee828eeeeee322233e33333333
+ee79999fff55f9997eeeeeee108809900cc0bb0144443334233cc2333332cc333233cc323332cc3333333332ebbbeeeeb3e3beee888eeeeee32223e83b3b3333
+ee799999ffff99997eeeeeee108809900cc0bb014444444423cc32333332cb3b323cc3323332c33333333332beeebeebeb34ee3b888e828e3e8223e33b3b3333
 ee799999ff9999997eeeeeee1111111111111111999999942cc3323333c23b3b32cc333233c2333333333332b333bebbee34e3bee8ee888e3eee33e333333333
 ee799999ff099997eeeeeeee1001133011044001eeeeeee12cb3b2333cc2333332c333323cc2333333333332bbbbbbbebee43beee3e3888e8ee3e3ee33333b3b
 eee799990ff09997eeeeeeee100ccbb0cc099001eeeeeee123b3b233cc323333c2333332cc32333333333332bbbbbbeeeb343eeee33ee8eeee3ee8ee33333b3b
@@ -1021,17 +1024,17 @@ ee9fff9eee9fff9eee9fff9eee9fff9e2777777260000444ee0008888008808880e000ee0220eee0
 ee99f99eee9fff9eee99f99eee9fff9e2777777260000414eeee0888800888880eeeeeeee00eeeee00e00220ee000000e0000000000e00eeee00220eeeeeeeee
 ee91119eee99f99eee91119eee99f99e2777767260000414eeeee08800888880eeeeeeeeeeeeeeeeee02220eeeeeee080088220eeeeeeeeee02220eeeeeeeeee
 ee11111eee91119eee11111eee91119e2777767260000444eeeeee000888880eeeeeeeeeeeeeeeeeee0220eeeeeeee020020220eeeeeeeeee0220eeeeeeeeeee
-eef111feeef11f1eeef111feee1f11fe9776677960000442eeeeeee0888880eeeeeeeeeeeeeeeee00ee00eeeeeeee022022020eeeeeeeeeeee00eee00eeeeeee
-ee11111eee22111eee11111eee11144e4999999460000444eeeeeee0880880eeeeeeeeeeeeeeee0880eeeeeeeeeee022022020eeeeeee00eeeeeee0820eeeeee
-ee22e44eee22e44eee22e44eee22e44e44444444d0000444eeeeeee0880880eeeeeeeeeeeeeee08220ee00ee00e00e00e0000ee0000e0880e00e000220e0000e
-eeeeeeeeee3b3b3ee66eeeeee77e777e66666eeeeeeaeeeeeeeeeee0888880eeeeeeeeeeeeeee02220e08800880880e008800e0888208222088088000e088820
-eeeeeeeee83b3b3ee77eeeeee776777e76867eeeaaa9aeeeeeeeeeee0888880eeeeeeeeeeeee0220220022222222220882222082222022220222228800822220
-e55ee77ee8eeeeeee77eeeeee77666ee77777eeea9eaeeeeeeeeeeeee0088880eeeeeeeeeeee022022002200220022022002202200002200022000220022000e
-e577e77eee8eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088080eeeeeeeeeee022002200220022002022222220222200220e0220e0220022220e
-e577e77eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0888880eeeeeeeeeee022222200220020022022000000002220220e0220e02200002220
-ee77eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088880eeeeeeeeeee02200022002002200220022002020002202220020ee02002000220
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0880eeeeeeeeeeee0220e022022002200220022222022222002220220e02200222220e
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00eeeeeeeeeeeeee00eee00e00ee00ee00ee00000e00000ee000e00eee00ee00000ee
+eef111feeef11f1eeef111feee1f11fe9776677960000442eeeeeee0888880eeeeeeeeeeeeeeeeeee0000eeeeeeee022022020eeeeeeeeeeee00eeee00eeeeee
+ee11111eee22111eee11111eee11144e4999999460000444eeeeeee0880880eeeeeeeeeeeeeeeeee0880eeeeeeeee022022020eeeeeeee00eeeeeee0820eeeee
+ee22e44eee22e44eee22e44eee22e44e44444444d0000444eeeeeee0880880eeeeeeeeeeeeeeeee08220e00ee00e000000000eee0000e0880e00e0002200000e
+eeeeeeeeee3b3b3eeeeeeeeee77e777e66666eeeeeeaeeeeeeeeeee0888880eeeeeeeeeeeeeeeee02220e8800880880e008800e0888208222088088000088820
+eeeeeeeee83b3b3eeeeeeeeee776777e76867eeeaaa9aeeeeeeeeeee0888880eeeeeeeeeeeeeee02202202222222222088222208222202222022222880822220
+e55ee77ee8eeeeeeeeeeeeeee77666ee77777eeea9eaeeeeeeeeeeeee0088880eeeeeeeeeeeeee0220220220022002202200220220000220002200022022000e
+e577e77eee8eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088080eeeeeeeeeeeee02200220220022002022222220222200220e0220e022022220e
+e577e77eeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0888880eeeeeeeeeeeee02222220220020022022000000002220220e0220e0220002220
+ee77eeeeeeeeeeeeeeeee77eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088880eeeeeeeeeeeee0220002202002200220022002020002202220020ee0202000220
+eeeeeeeeeeeeeeeeeeeee77eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0880eeeeeeeeeeeeee0220e02222002200220022222022222002220220e0220222220e
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00eeeeeeeeeeeeeeee00eee0000ee00ee00ee00000e00000ee000e00eee00e00000ee
 __label__
 00000000000000000000000000000000000000000000000000000755656555556565555565655555656555556565555565655555656555556565555565655555
 00000000000000000000000000000000000000000000000000000756555655565556555655565556555655565556555655565556555655565556555655565556
