@@ -19,12 +19,13 @@ function _init()
 -- 5: fade out
 -- 6: fade in
  mode=3
- t1=1 -- circle appears
- t2=2 -- go to circle
- t3=3 -- lines begin to appear
- t4=6 -- go to center
- t5=7 -- at center
- t6=8 -- the end
+ t11=1 -- 5 circles
+ t1=2 -- circle appears
+ t2=3 -- go to circle
+ t3=4 -- lines begin to appear
+ t4=8 -- go to center
+ t5=9 -- at center
+ t6=11 -- the end
  
  palt(0,false)
 	palt(14,true)
@@ -47,9 +48,6 @@ function _update60()
   update_title()
  elseif mode==4 then
   update_circle()
- elseif mode==6 then
-  camx=109*8-60
-  camy=27*8-60
  end
 end
 
@@ -228,10 +226,10 @@ function change_dial()
  end
 end
 
-function start_dial(id)
+function start_dial(id,nbp)
  mode=2
  chat=id
- nb=1
+ nb=nbp or 1
  -- npc look at the player
  if p.o>=2 and id<10 and id!=5 then -- no the old lady
   for n in all(npc) do
@@ -300,7 +298,8 @@ don't tell them you were here.",
 "i'm all by myself. there is\
 also a wanabee alchemist named\
 owen locke. and the postwoman\
-regularly comes here as well."
+regularly comes here as well.",
+"final dialogue"
 }
 aall[1]={{
 "why am i really here?",
@@ -309,7 +308,8 @@ coffee as well?",
 "who works here? "},
 {"who works here?"},
 {},
-{"why am i really here?"}
+{"why am i really here?"},
+{}
 }
 pall[1]={{2,3,4,0},{4,0},{0},{2,0}}
 
@@ -588,6 +588,8 @@ function _draw()
     p.y=28*8
     p.ox=p.x
     p.oy=p.y
+    camx=p.x-60
+    camy=p.y-68
     st_final_dial=true
    end
    pal(i,c,1)
@@ -597,16 +599,17 @@ function _draw()
   fade={[0]=0,0,0,0,1,0,5,6,2,2,4,3,5,1,4,4}
   m=t()-t0
   for i=0,15 do
-   if m<.2 then
+   if m<.3 then
     c=fade[fade[fade[i]]]
-   elseif m<.3 then
+   elseif m<.6 then
     c=fade[fade[i]]
-   elseif m<.4 then
+   elseif m<.9 then
     c=fade[i]
+   elseif m<2 then
+    c=i
    else
     c=i
-    mode=1
-    -- todo start dial
+    start_dial(1,5)
    end
    pal(i,c,1)
   end
@@ -751,7 +754,7 @@ end
  {nbspr=70,x=44,y=20},
  {nbspr=70,x=38,y=21},
  {nbspr=70,x=41,y=21},
- {nbspr=197,id=1036,x=42,y=15},
+ {nbspr=197,id=1036,x=44,y=15},
  {nbspr=71,x=38,y=19},
  {nbspr=71,x=42,y=20},
  {nbspr=71,x=39,y=22},
@@ -918,13 +921,13 @@ end
  {nbspr=207,x=51,y=15}
  }
   
- st_key_g=false
- st_key_l=false
+ st_key_g=true
+ st_key_l=true
  st_white_b=false
  st_talk_m=false
  st_flag=false
  st_lost_pkg=false
- st_crowbar=false
+ st_crowbar=true
  st_final_dial=false
 
  -- npc
@@ -1082,7 +1085,7 @@ function draw_circle()
  local rad=70
  local dt=t()-t0
  
- if dt>t1 then
+ if dt>t11 then
   for i=-1,1 do
    for j=1,5 do
     circ(pts[j].x,pts[j].y,10+i,2)
@@ -1091,6 +1094,9 @@ function draw_circle()
   for j=1,5 do
    circ(pts[j].x,pts[j].y,10,8)
   end
+ end
+ 
+ if dt>t1 then
   for i=-1,1 do
 	  circ(centerx,centery,rad+i,2)
 	 end
@@ -1113,6 +1119,12 @@ function draw_circle()
  	 line(pts[i].x,pts[i].y,8)
  	end
  end
+ if dt>t5 then
+   for i=-1,1 do
+	  circ(centerx+2,centery+2,50+i,2)
+	 end
+	 circ(centerx+2,centery+2,50,8)
+	end
 end
 __gfx__
 00000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
