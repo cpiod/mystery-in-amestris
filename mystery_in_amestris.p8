@@ -486,7 +486,8 @@ dall[1027]={"...\
 it has nothing to say."}
 
 names[1028]="a sign"
-dall[1028]={"sorry for the boxes\
+dall[1028]={"the boxes will go away.\
+eventually.\
 \
 v.gREY"}
 
@@ -589,7 +590,7 @@ function _draw()
   draw_circle(true)
 	 chat=-1
  	a={}
-	 d="the fire is out. you faint\
+	 d="the fire is out but you faint\
 because of the smoke."
 	 prt_dial()
   fade={[0]=0,0,0,0,1,0,5,6,2,2,4,3,5,1,4,4}
@@ -969,7 +970,7 @@ end
  add(npc,calvin)
  amelia={id=2,x=31,y=14,f="up"}
  add(npc,amelia)
- grey={id=4,x=44,y=13,f=true}
+ grey={id=4,x=45,y=13,f=true}
  add(npc,grey)
  locke={id=3,x=55,y=5}
  add(npc,locke)
@@ -1175,7 +1176,7 @@ end
 
 fire={{x=40,y=20,t=9*rnd()},
 {x=43,y=13,t=9*rnd()},
-{x=45,y=13,t=9*rnd()},
+{x=46,y=13,t=9*rnd()},
 {x=40,y=14,t=9*rnd()},
 {x=42,y=19,t=9*rnd()},
 {x=38,y=21,t=9*rnd()},
@@ -1207,9 +1208,13 @@ function draw_fire()
  grey.f=t()%.5<.25
  for e in all(expl) do
   circfill(e.x,e.y,e.r,8)
-  circfill(e.x,e.y,e.r-2,9)
+  circfill(e.x,e.y,e.r-ceil(e.r/3),9)
   e.r+=.2
-  if(e.r>8) del(expl,e) add(expl,{x=8*36+rnd(8*16),y=10*8+rnd(8*13),r=0})
+  if e.r>9 then
+   e.x=8*36+rnd(8*16)
+   e.y=10*8+rnd(8*13)
+   e.r=0
+  end
  end
 end
 __gfx__
@@ -1312,8 +1317,8 @@ e7011111101161101107eeee4444444444444444e44444eeeee00eeeeee00eeeeeee44ee44444444
 4001104400221104422113344022044001103304eeeeeeeeeeeeeeee0eeeeee0eeeeeeeeeeee5eeeeee55eeee500eeeeeeeeeeeeebb7bbbeee242eeeeee242ee
 400cc0990088cc04488ccbb4408809900cc0bb04ea8aa8aee00000e080e00e080e00000eeee500eeee5000ee500eee0ee0ee5eeee377373eeee4eeeeeeee4eee
 400cc0990088cc04488ccbb4408809900cc0bb04eaa88aae088888008808808800888880ee50000eee000ee0eeeeeee05ee005eee337337eeea49eeeeeee4eee
-4444444444444444444444444444444444444444ea8aa8aee0888800888888880088880eeee500eee500ee0050eeeeeeeeee000ee977797eea9499eeeee949ee
-4022044002200334403301144001133011044004e989989eee08888088888888088880eeee5000ee500eeeee00e5eeeeeee500eee897788ee49994eeee99499e
+4444444444444444444444444444444444444444ea8aa8aee0888800888888880088880eeee500eee500ee0050eeeeeeeeee000ee97779aeea9499eeeee949ee
+4022044002200334403301144001133011044004e989989eee08888088888888088880eeee5000ee500eeeee00e5eeeeeee500eee897a88ee49994eeee99499e
 4088099008800bb440bb0cc4400ccbb0cc099004e998899eeee088880000000088880eeee50000eee50eeeeeee50eeeeee000eeeee888eeee44444eeeee999ee
 4088099008800bb440bb0cc4400ccbb0cc099004e998899eeeee0088800880088800eeeeee500eeeeee5eeeeee000eeee50000eeeeeeeeeee24442eeeeeeeeee
 4444444444444444444444444444444444444444e989989eeeeeee000088880000eeeeeeeee0eeeeee000eeee50000eeee000eeeeeeeeeeeee222eeeeeeeeeee
