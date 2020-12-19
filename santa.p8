@@ -62,7 +62,7 @@ function update_diag()
    change_dial()
   end
  end
- if(btnp(❎)) mode=1
+ if(btnp(❎) and not st_final_dial and chat!=1037) mode=1
 end
 
 function update_move()
@@ -286,7 +286,7 @@ aall[905]={{"(look closer)"}}
 -- mustang
 dall[1]={
 "i am glad you came! your desk\
-is next to mine. you will\
+is in the next room. you will\
 start by processing some late\
 files.",
 "i gave my team some well-\
@@ -294,12 +294,18 @@ deserved vacations and i told\
 them i am capable of managing\
 central city by myself. so\
 don't tell them you were here.",
-"black.",
+"yes. black.",
 "i'm all by myself. there is\
 also a wanabee alchemist named\
-owen locke. and the postwoman\
-regularly comes here as well.",
-"final dialogue"
+oWEN lOCKE. mRS. cALVIN is\
+certainly in the library. and\
+i guess our mail manager,\
+vICTOR gREY, is nearby.",
+"i'd never ask such book. as\
+grumman says, i would not need\
+it. the best i can say is that\
+somebody used my name to get\
+it."
 }
 aall[1]={{
 "why am i really here?",
@@ -308,11 +314,10 @@ coffee as well?",
 "who works here? "},
 {"who works here?"},
 {},
-{"why am i really here?"},
+{"why am i really here?","do you want a coffee as well?"},
 {}
 }
-pall[1]={{2,3,4,0},{4,0},{0},{2,0}}
-
+pall[1]={{2,3,4},{4,0},{0},{2,3,0}}
 
 
 dall[1000]="    == equivalent exchange ==\
@@ -394,7 +399,7 @@ you find me, return me!\
 
 names[1012]="a sealed letter"
 dall[1012]={
-"roy,\
+"rOY,\
 \
 i don't know why you so seem\
 so interested in books about\
@@ -405,13 +410,34 @@ careful. i don't know what\
 you need that for, but some\
 people are suspicious.\
 \
-grumman"}
+gRUMMAN","you take it."}
+pall[1012]={{2}}
 
 names[1013]="an ad"
 dall[1013]={
 "get a dream body with 1 tip!\
 \
 1. don't trust advertisements"}
+
+names[1014]="a pile of files"
+dall[1014]={
+"the files mustang wants me to\
+process. no way."}
+
+names[1015]="a note on the wall"
+dall[1015]={"if i'm not here, ring the\
+bell.\
+\
+v.gREY.\
+ps: there is no bell."}
+
+names[1016]="a pile of receipts"
+dall[1016]={"some signatures are missing."}
+
+names[1017]="some drawings"
+dall[1017]={"a sketch of a transmutation\
+circle based on a pentagram\
+and some drawings of trees."}
 
 names[1020]="a window"
 dall[1020]={
@@ -550,12 +576,15 @@ function _draw()
   print_center(t,camx,camy+120,1)
 	
 	elseif mode==4 then
+  draw_fire()
   draw_circle()
 
 	elseif mode==5 then
+  draw_circle(true)
 	 chat=-1
  	a={}
-	 d="you pass out."
+	 d="the fire is out. you faint\
+because of the smoke."
 	 prt_dial()
   fade={[0]=0,0,0,0,1,0,5,6,2,2,4,3,5,1,4,4}
   m=t()-t0
@@ -664,7 +693,7 @@ end
  {nbspr=240,id=1013,x=120,y=7,f=true},
 -- warehouse
  {nbspr=240,x=41,y=12},
- {nbspr=240,x=46,y=12,f=true},
+ {nbspr=240,id=1015,x=46,y=12,f=true},
 -- library entrance
  {nbspr=240,id=1010,x=22,y=17},
   
@@ -755,6 +784,7 @@ end
  {nbspr=70,x=38,y=21},
  {nbspr=70,x=41,y=21},
  {nbspr=197,id=1036,x=44,y=15},
+ {nbspr=197,x=92,y=8},
  {nbspr=71,x=38,y=19},
  {nbspr=71,x=42,y=20},
  {nbspr=71,x=39,y=22},
@@ -783,24 +813,25 @@ end
  {nbspr=171,x=11,y=23},
  {nbspr=171,x=57,y=8,f=true},
  
- -- letter
- {nbspr=244,id=1012,x=117,y=10},
-
  -- wine
  {nbspr=-1,id=1022,x=119,y=8},
 
+-- office book
+ {nbspr=241,id=1000,x=17,y=6},
 -- librarian book
  {nbspr=241,id=1002,x=5,y=17},
 -- book in greenhouse
- {nbspr=241,x=107,y=25},
+ {nbspr=241,id=1001,x=107,y=25},
   
  -- paper
+-- work from mustang
+ {nbspr=243,id=1014,x=25,y=6},
 -- desk of mail manager
- {nbspr=243,x=43,y=13},
+ {nbspr=243,id=1016,x=43,y=13},
 -- library entrance
  {nbspr=243,id=1011,x=19,y=17},
 -- greenhouse
- {nbspr=243,x=58,y=8},
+ {nbspr=243,id=1017,x=58,y=8},
  
  -- fertilizer
  {nbspr=166,id=1023,x=48,y=4},
@@ -924,11 +955,11 @@ end
  st_key_g=true
  st_key_l=true
  st_white_b=false
- st_talk_m=false
  st_flag=false
  st_lost_pkg=false
  st_crowbar=true
  st_final_dial=false
+ st_letter=false
 
  -- npc
  mustang={id=1,x=34,y=9}
@@ -942,6 +973,8 @@ end
  locke={id=3,x=55,y=5}
  add(npc,locke)
 
+ letter={nbspr=244,id=1012,x=117,y=10}
+ add(npc,letter)
  key_g={nbspr=245,id=1004,x=120,y=10}
  add(npc,key_g)
  door_g={nbspr=-1,id=1025,x=60,y=5}
@@ -956,17 +989,13 @@ end
  add(npc,wbook)
  crowbar={nbspr=181,id=1035,x=97,y=8}
  add(npc,crowbar)
- wall1={nbspr=-1,id=901,x=24,y=18}
--- add(npc,wall1)
- wall2={nbspr=-1,id=901,x=34,y=19}
--- add(npc,wall2)
 -- todo
 
 function check_update(chat,nb)
- if not st_talk_m and chat==1 then
-  st_talk_m=true
-  del(npc,wall1)
-  del(npc,wall2)
+ if st_key_g and chat==1025 then
+  mset(60,5,229)
+  del(npc,door_g)
+  return 1031,1
  elseif not st_key_g and chat==1004 then
   st_key_g=true
   del(npc,key_g)
@@ -985,6 +1014,12 @@ function check_update(chat,nb)
  elseif chat==905 and nb==2 then
   del(npc,flag_l)
   mset(8,15,184)
+ elseif not st_letter and chat==1012 and nb==2 then
+  del(npc,letter)
+  st_letter=true
+  add(aall[1][1],"i found a strange letter\
+from grumman")
+  add(pall[1][1],5)
  elseif chat==1003 then
   st_key_l=true
   del(npc,wbook)
@@ -1072,18 +1107,19 @@ function update_circle()
  end	
 end
 
-  pts={{x=49*8+2,y=6*8+7},
-  {x=36*8+7,y=6*8+7},
-  {x=34*8+4,y=14*8+4},
-	 {x=43*8+4,y=21*8+6},
-	 {x=51*8+4,y=14*8+4},
-	 {x=49*8+2,y=6*8+7}}
+pts={{x=49*8+2,y=6*8+7},
+ {x=36*8+7,y=6*8+7},
+ {x=34*8+4,y=14*8+4},
+ {x=43*8+4,y=21*8+6},
+ {x=51*8+4,y=14*8+4},
+ {x=49*8+2,y=6*8+7}}
 
-function draw_circle()
+function draw_circle(doall)
  local centerx=43*8
  local centery=13*8
  local rad=70
  local dt=t()-t0
+ if(doall) dt=100
  
  if dt>t11 then
   for i=-1,1 do
@@ -1125,6 +1161,45 @@ function draw_circle()
 	 end
 	 circ(centerx+2,centery+2,50,8)
 	end
+end
+
+fire={{x=40,y=20,t=9*rnd()},
+{x=43,y=13,t=9*rnd()},
+{x=45,y=15,t=9*rnd()},
+{x=40,y=14,t=9*rnd()},
+{x=42,y=19,t=9*rnd()},
+{x=38,y=21,t=9*rnd()},
+{x=48,y=13,t=9*rnd()},
+{x=44,y=22,t=9*rnd()},
+{x=36,y=20,t=9*rnd()},
+{x=41,y=22,t=9*rnd()},
+{x=42,y=15,t=9*rnd()},
+{x=40,y=17,t=9*rnd()},
+{x=50,y=14,t=9*rnd()},
+{x=43,y=19,t=9*rnd()},
+{x=41,y=10,t=9*rnd()},
+{x=46,y=10,t=9*rnd()}}
+
+expl={}
+for i=1,8 do
+ add(expl,{x=8*36+rnd(8*16),y=10*8+rnd(8*13),r=rnd(8)})
+end
+
+function draw_fire()
+ for f in all(fire) do
+  spr(185+(f.t+10*t())%4,f.x*8,f.y*8-2)
+ end
+ for f in all(fire) do
+  spr(201+(f.t+10*t())%4,f.x*8,f.y*8-8-2)
+ end
+ spr(189,grey.x*8,grey.y*8-13+2*cos(2*t()))
+ grey.f=t()%.5<.25
+ for e in all(expl) do
+  circfill(e.x,e.y,e.r,8)
+  circfill(e.x,e.y,e.r-2,9)
+  e.r+=.2
+  if(e.r>8) del(expl,e) add(expl,{x=8*36+rnd(8*16),y=10*8+rnd(8*13),r=0})
+ end
 end
 __gfx__
 00000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
@@ -1215,22 +1290,22 @@ e7011111101161101107eeee4444444444444444e44444eeeee00eeeeee00eeeeeee44ee44444444
 701101101161111610107eee4eeeeeeeeeeeeee4eee2eeee49999994e4999994e4a9994e4211151115111541e4444eeeeeeeeeeeeeeeeeeeee3eee3e33333333
 701101101111111610107eee4eeeeeeeeeeeeee4ee222eeee4999994ee49994ee499994e4211115151111141e42e4eeeeeeeeeeeeeeeeeeee8e3e3e333333333
 701101011111111610107eee4eeeeeeeeeeeeee4e2eee2eeee444422eee4422eee44422e4111111511111145e4ee4eeeeeeeeeeeeeeeeeeeeee3eee833333333
-4444444444444444444444444444444444444444eeeeeeee911111191d11ddd1515511150000000000000000000000000000000000000000eeee282eeeeeeeee
-4999999999999994499999944999999999999994ee66eeee49999994dd1111dd153355110000000000000000000000000000000000000000e22e8482eeeee22e
-4999999999999994499999944999999999999994e6eeeeee44999644d111111113373555000000000000000000000000000000000000000028222242e82e2282
-4444444444444444444444444444444444444444ee8eeeee29999962d11111111777333500000000000000000000000000000000000000008428224284228248
-4002233001100004404402244003304400110224eee8eeee29fff9721111111d5377737100000000000000000000000000000000000000002842842ee2482482
-40088bb00cc0000440990884400bb09900cc0884eeee8eee29fff9721111111d553377310000000000000000000000000000000000000000e224248ee842422e
-40088bb00cc0000440990884400bb09900cc0884eeeee6ee29666972dd1111dd115533510000000000000000000000000000000000000000ee224822228422ee
-4444444444444444444444444444444444444444eeeeeeee267777621ddd11d1511155150000000000000000000000000000000000000000e282422ee224282e
-4001104400221104422113344022044001103304eeeeeeeeeeeeeeee0eeeeee0eeeeeeee0000000000000000000000000000000000000000ee242eeeeee242ee
-400cc0990088cc04488ccbb4408809900cc0bb04ea8aa8aee00000e080e00e080e00000e0000000000000000000000000000000000000000eee4eeeeeeee4eee
-400cc0990088cc04488ccbb4408809900cc0bb04eaa88aae0888880088088088008888800000000000000000000000000000000000000000eea49eeeeeee4eee
-4444444444444444444444444444444444444444ea8aa8aee0888800888888880088880e0000000000000000000000000000000000000000ea9499eeeee949ee
-4022044002200334403301144001133011044004e989989eee08888088888888088880ee0000000000000000000000000000000000000000e49994eeee99499e
-4088099008800bb440bb0cc4400ccbb0cc099004e998899eeee088880000000088880eee0000000000000000000000000000000000000000e44444eeeee999ee
-4088099008800bb440bb0cc4400ccbb0cc099004e998899eeeee0088800880088800eeee0000000000000000000000000000000000000000e24442eeeeeeeeee
-4444444444444444444444444444444444444444e989989eeeeeee000088880000eeeeee0000000000000000000000000000000000000000ee222eeeeeeeeeee
+4444444444444444444444444444444444444444eeeeeeee911111191d11ddd151551115ee2ee28e2eeeee2e2eeee8ee2e2ee8eee9e9e9eeeeee282eeeeeeeee
+4999999999999994499999944999999999999994ee66eeee49999994dd1111dd15335511e28eee82e8e2ee8e88e2ee2ee882ee28e9e9e9eee22e8482eeeee22e
+4999999999999994499999944999999999999994e6eeeeee44999644d111111113373555e882ee88e88ee88ee88ee889e888e888e9e9e9ee28222242e82e2282
+4444444444444444444444444444444444444444ee8eeeee29999962d111111117773335988ee88e888ee888e98ee89e998ee89eeeeeeeee8428224284228248
+4002233001100004404402244003304400110224eee8eeee29fff9721111111d53777371e98e888899898988e98a8988e98a898ee9e9e9ee2842842ee2482482
+40088bb00cc0000440990884400bb09900cc0884eeee8eee29fff9721111111d55337731ea98a988ea99a998ea99898ee8998988eeeeeeeee224248ee842422e
+40088bb00cc0000440990884400bb09900cc0884eeeee6ee29666972dd1111dd1155335198999a98a8989a88e9889aeea9889a89eeeeeeeeee224822228422ee
+4444444444444444444444444444444444444444eeeeeeee267777621ddd11d151115515eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee282422ee224282e
+4001104400221104422113344022044001103304eeeeeeeeeeeeeeee0eeeeee0eeeeeeeeeeee5eeeeee55eeee500eeeeeeeeeeee00000000ee242eeeeee242ee
+400cc0990088cc04488ccbb4408809900cc0bb04ea8aa8aee00000e080e00e080e00000eeee500eeee5000ee500eee0ee0ee5eee00000000eee4eeeeeeee4eee
+400cc0990088cc04488ccbb4408809900cc0bb04eaa88aae088888008808808800888880ee50000eee000ee0eeeeeee05ee005ee00000000eea49eeeeeee4eee
+4444444444444444444444444444444444444444ea8aa8aee0888800888888880088880eeee500eee500ee0050eeeeeeeeee000e00000000ea9499eeeee949ee
+4022044002200334403301144001133011044004e989989eee08888088888888088880eeee5000ee500eeeee00e5eeeeeee500ee00000000e49994eeee99499e
+4088099008800bb440bb0cc4400ccbb0cc099004e998899eeee088880000000088880eeee50000eee50eeeeeee50eeeeee000eee00000000e44444eeeee999ee
+4088099008800bb440bb0cc4400ccbb0cc099004e998899eeeee0088800880088800eeeeee500eeeeee5eeeeee000eeee50000ee00000000e24442eeeeeeeeee
+4444444444444444444444444444444444444444e989989eeeeeee000088880000eeeeeeeee0eeeeee000eeee50000eeee000eee00000000ee222eeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee9111111951111111eeeeeeeee088880eeeeeeeeeeee00eeee00eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee4999999415111111eeeeeeee00088000eeeeeeeeee0a90ee0a90eeeeeeeeeeeeee00eeeeeeeeeeeeeeeeeeeeeeeeeeee
 eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee4466664411511111eeeeeee0888888880eeeeeeeee099900a99000ee00ee0000e0a90eee00eee00e00e00ee00eeeeeee
