@@ -66,6 +66,14 @@ function update_diag()
 end
 
 function update_move()
+ if not st_secret_room and p.x==116*8 and p.y==9*8 then
+  st_secret_room=true
+  add(aall[4][1],
+"i know about the secret room\
+with all the bottles.",2)
+  add(pall[4][1],13,2)
+ end
+
  local moving=p.x!=p.ox or p.y!=p.oy
  if(p.x<p.ox) p.x+=1
  if(p.x>p.ox) p.x-=1
@@ -317,6 +325,221 @@ coffee as well?",
 }
 pall[1]={{2,3,4},{4,0},{0},{2,3,0}}
 
+-- owen locke
+dall[3]={
+"welcome to my greenhouse! my\
+name is owen lock. i am still\
+an apprentice: i work on the\
+interactions between plants\
+and alchemy.",
+"with pleasure! as you know,\
+alchemy is based on the\
+telluric energy that comes\
+from deep inside the earth.\
+plants also harvest this\
+energy; but something is\
+wrong... my experiments keep\
+failing, even though i am sure\
+my theory is correct.",
+"as soon as my experiments\
+work. i could pass the examen\
+now, but i want to work with\
+roy mustang and learn his\
+alchemy. to do that, i must\
+impress him first.",
+"i don't know yet. something\
+classy. do you have an idea?",
+"no. ask amelia, the postwoman.\
+she seems to wander nearby\
+very often even though that's\
+not her place. i find her very\
+suspicious.",
+"that's... something. well, i\
+need to go back to my\
+experiments now.",
+"yeah... yeah! that's awesome.\
+tellurician, because my\
+research is about telluric\
+energy. thanks for the tip.\
+here is an advice for your\
+little mail investigation:\
+there is an hidden door in\
+the right wall of the package\
+room. look for a grey wall.",
+"too bad.",
+"no. he is rude and he doesn't\
+respect the alchemists.",
+"she is a wonderful lady.\
+skillful and mischievous.\
+don't let her old age fool\
+you: she is very powerful."
+}
+
+aall[3]=
+{{"tell me more about your\
+research",
+"when will you try the state\
+alchemist examen?",
+"do you know anything about\
+some missing mail?",
+"do you like the mail manager?",
+"do you know the librarian?"},
+{"when will you try the state\
+alchemist examen?"},
+{"tell me more about your\
+research",
+"what will be your state\
+alchemist codename?"},
+{"the mad gardener",
+"the tellurician",
+"the soil-eater",
+"no."},
+{"tell me more about your\
+research"},
+{},
+{},
+{},
+{"do you know the librarian?",
+"tell me more about your\
+research"},
+{"do you like the mail manager?",
+"tell me more about your\
+research"}
+}
+
+pall[3]={
+{2,3,5,9,10,0},
+{3,0},
+{2,4},
+{6,7,6,8},
+{2,0},
+{},
+{},
+{},
+{10,2},
+{9,2}
+}
+
+-- victor grey
+dall[4]={"i'm busy. go away.",
+"packages are missing! three\
+of them so far. that's\
+unacceptable. my reputation is\
+at stake, do you understand?",
+"well, you can stay here day\
+and night and catch the thief\
+if he ever comes back.",
+"amelia, the postwoman? she is\
+a nice girl. far more clever\
+that she sounds. she managed\
+to bring the mail to here. i\
+think she likes me.",
+"roy mustang. he told me\
+that's nothing, that he\
+doesn't even remember what\
+these packages were. but i\
+can tell when he lies. he\
+considers it is a big problem.",
+"i mean... that's possible, of\
+course. but i don't think so.\
+she has always been honest\
+with me. that's a rare quality.",
+"i don't see him much. always\
+working in his greenhouse,\
+night and day. he received a\
+lot of fertilizer, recently.\
+probably for his experiments.\
+he wants to impress mustang\
+but the colonel doesn't give\
+him much attention.",
+"no. i don't trust alchemists.\
+specially state alchemists.\
+and he is too flirtatous with\
+ladies.",
+"beware the old mrs. calvin:\
+she was once a powerful\
+alchemist. she is very nice,\
+but don't angry her by not\
+returning your books to the\
+library. she is probably the\
+least unbearable state\
+alchemist.",
+"and that's why i hate state\
+alchemists.",
+"no. but i registered them\
+when they arrived. one came\
+from a library from east city.\
+it was an alchemist book about\
+explosives, addressed to\
+mustang. the second came in a\
+bag. i didn't open it; maybe\
+electrial wire or ropes? the\
+last was a letter addressed to\
+mustang.",
+"it doesn't mean your time is\
+worth more than mine.",
+"okay. i can maybe get you two\
+minutes of my time. what to\
+you want?"
+}
+
+aall[4]={
+{"i am a state alchemist!"},
+{"can i help you?",
+"who were the missing packages\
+addressed to?",
+"do you know the postwoman?"},
+{},
+{"she seems to prefer mustang.",
+"do you think she could be the\
+thief?"},
+{"do you know mustang well?",
+"what can you tell me about\
+the librarian?",
+"so nobody knows what was\
+inside these packages?"},
+{"who were the missing packages\
+addressed to?"},
+{"do you know the blonde girl?",
+"do you know mustang well?",
+"what can you tell me about\
+the librarian?",
+"who were the missing packages\
+addressed to?"},
+{"do you know the blonde girl?",
+"what do you think of the\
+apprentice?"},
+{"what do you think of the\
+apprentice?",
+"do you know mustang well?"},
+{},
+{"do you know mustang well?",
+"do you know the blonde girl?"},
+{},
+{"you seem worried.",
+"do you know the blonde girl?",
+"what do you think of the\
+apprentice?",
+"do you know mustang well?",
+"what can you tell me about\
+the librarian?"}
+}
+
+pall[4]={
+{12,0},
+{3,5,4},
+{},
+{10,6,0},
+{8,9,11},
+{5,0},
+{4,8,9,5,0},
+{4,7},
+{7,8},
+{},
+{8,4,0},
+{},
+{2,4,7,8,9}
+}
 
 dall[1000]={"    == equivalent exchange ==\
 \
@@ -366,8 +589,8 @@ phosphorus or sulfur."
 
 names[1003]="a gray book"
 dall[1003]={
-"that's the gray book that\
-disappeared!\
+"that's the gray book that is\
+missing!\
 \
 you take it with you.",
 "you find an old key hidden\
@@ -457,7 +680,8 @@ names[1022]="some bottles"
 dall[1022]={
 "\"l'authentique bouteille de\
 vin.\"\
-sounds fancy."}
+sounds fancy. i am pretty sure\
+alcohol is forbidden here..."}
 
 names[1023]="a sack of fertilizer"
 dall[1023]={
@@ -824,9 +1048,9 @@ end
 -- office book
  {nbspr=241,id=1000,x=17,y=8},
 -- librarian book
- {nbspr=241,id=1002,x=5,y=17},
+ {nbspr=241,id=1001,x=5,y=17},
 -- book in greenhouse
- {nbspr=241,id=1001,x=107,y=25},
+ {nbspr=241,id=1002,x=107,y=25},
   
  -- paper
 -- work from mustang
@@ -954,6 +1178,7 @@ end
  {nbspr=207,x=51,y=15}
  }
   
+ st_secret_room=false
  st_key_g=false
  st_key_l=false
  st_white_b=false
@@ -1079,7 +1304,7 @@ function update_title()
 
  if btnp(🅾️) then
   mode=1
-  p={x=29*8,y=(20+5)*8,o=0,f=false}
+  p={x=29*8,y=(22+5)*8,o=0,f=false}
   p.ox=p.x
   p.oy=p.y-5*8
   camx=p.x-60
