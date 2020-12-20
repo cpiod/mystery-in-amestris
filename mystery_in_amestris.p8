@@ -136,11 +136,16 @@ slct=1
 
 faces={80,83,86,89,92}
 faces[9]=128
-names={"rOY mUSTANG",
-"aMELIA sMITH",
-"oWEN lOCKE",
-"vICTOR gREY",
-"mRS. cALVIN"}
+names={"rOY mUSTANG\
+state alchemist",
+"aMELIA sMITH\
+postwoman",
+"oWEN lOCKE\
+apprentice",
+"vICTOR gREY\
+mail manager",
+"mRS. cALVIN\
+librarian"}
 local s="a book"
 names[1000]=s
 names[1001]=s
@@ -176,12 +181,13 @@ function prt_dial()
   if(chat<900) spr(128,camx+98,camy+deltay,3,3,true)
  end
  names[chat]=names[chat] or ""
+ local namey=cnt(names[chat])*6
  for i=-1,1 do
   for j=-1,1 do
-   print(names[chat],camx+namex+i,camy+deltay+18+j,0)
+   print(names[chat],camx+namex+i,camy+deltay+18+j-namey,0)
   end
  end
- print(names[chat],camx+namex,camy+deltay+18,6)
+ print(names[chat],camx+namex,camy+deltay+18-namey,6)
  
  -- bg
  rectfill(3+camx,24+camy+deltay,125+camx,maxy+camy+24+deltay,1)
@@ -285,9 +291,20 @@ dall[904]={"the flag of amestris. classy."}
 
 dall[905]={"the flag of amestris. classy.",
 "wait... there is something\
-behind! you toss the flag."}
+behind! i'll toss the flag."}
 pall[905]={{2}}
 aall[905]={{"(look closer)"}}
+
+
+names[906]="some bottles"
+dall[906]={
+"\"l'authentique bouteille de\
+vin.\"\
+sounds fancy. i am pretty sure\
+alcohol is forbidden here... \
+it probably belongs to the\
+mail manager, vICTOR gREY."}
+
 
 -- mustang
 dall[1]={
@@ -300,30 +317,83 @@ deserved vacations and i told\
 them i am capable of managing\
 central city by myself. so\
 don't tell them you were here.",
-"yes. black.",
+"yes. with milk and one sugar\
+cube.",
 "i'm all by myself. there is\
 also a wanabee alchemist named\
 oWEN lOCKE. mRS. cALVIN is\
 certainly in the library. and\
 i guess our mail manager,\
 vICTOR gREY, is nearby.",
-"i'd never ask such book. as\
-grumman says, i would not need\
-it. the best i can say is that\
-somebody used my name to get\
-it."
+"right. what do you want?",
+"i'd never ask for such a book.\
+as gRUMMAN says, i would not\
+need it. the best i can say is\
+that somebody used my name to\
+get it.",
+"wow. i didn't think you would\
+actually do it, you know.",
+"no.",
+"ok... but only because you\
+brought me coffee."
 }
 aall[1]={{
-"why am i really here?",
 "of course. do you want a\
 coffee as well?",
-"who works here? "},
-{"who works here?"},
+"i won't go until i have\
+answers."
+},
 {},
-{"why am i really here?","do you want a coffee as well?"},
+{},
+{},
+{"who works here?",
+"why am i really here?"},
 {}
 }
-pall[1]={{2,3,4},{4,0},{0},{2,3,0}}
+pall[1]={
+{3,5},
+{5},
+{},
+{5},
+{4,2,0},
+{}}
+
+dall[2]={
+"i didn't do anything wrong!",
+"what do you want?",
+"nothing at all! i mean...\
+mustang is really handsome,\
+isn't he? you don't have a\
+photo of him, by any chance?",
+"wow... thank you! how did\
+you...? never mind. thanks\
+again. i should go now!",
+"too bad...",
+"he is creepy.",
+"no, i swear! i always did my\
+job with great\
+conscientiousness."
+}
+
+aall[2]={
+{"i didn't say anything."},
+{"what are you doing here?",
+"what do you think of the mail\
+manager?",
+"do you know something about\
+missing packages?"},
+{"what? no!"},
+{},
+{}}
+
+pall[2]={
+{2},
+{3,6,7,0},
+{5},
+{2},
+{0},
+{2},
+{2}}
 
 -- owen locke
 dall[3]={
@@ -342,9 +412,9 @@ wrong... my experiments keep\
 failing, even though i am sure\
 my theory is correct.",
 "as soon as my experiments\
-work. i could pass the examen\
+work. i could pass the exam\
 now, but i want to work with\
-roy mustang and learn his\
+rOY mUSTANG and learn his\
 alchemy. to do that, i must\
 impress him first.",
 "i don't know yet. something\
@@ -361,63 +431,57 @@ experiments now.",
 tellurician, because my\
 research is about telluric\
 energy. thanks for the tip.\
-here is an advice for your\
+here is some advice for your\
 little mail investigation:\
 there is an hidden door in\
-the right wall of the package\
-room. look for a grey wall.",
+the right wall of the lower\
+package room. look for a grey\
+wall.",
 "too bad.",
 "no. he is rude and he doesn't\
 respect the alchemists.",
 "she is a wonderful lady.\
 skillful and mischievous.\
 don't let her old age fool\
-you: she is very powerful."
+you: she is very powerful.",
+"what do you want?"
 }
 
 aall[3]=
-{{"tell me more about your\
-research",
-"when will you try the state\
-alchemist examen?",
-"do you know anything about\
-some missing mail?",
-"do you like the mail manager?",
-"do you know the librarian?"},
+{{},
 {"when will you try the state\
-alchemist examen?"},
-{"tell me more about your\
-research",
-"what will be your state\
+alchemist exam?"},
+{"what will be your state\
 alchemist codename?"},
 {"the mad gardener",
 "the tellurician",
 "the soil-eater",
 "no."},
+{},
+{},
+{},
+{},
+{},
+{},
 {"tell me more about your\
-research"},
-{},
-{},
-{},
-{"do you know the librarian?",
-"tell me more about your\
-research"},
-{"do you like the mail manager?",
-"tell me more about your\
-research"}
+research",
+"do you like the mail manager?",
+"do you know the librarian?"
+}
 }
 
 pall[3]={
-{2,3,5,9,10,0},
-{3,0},
-{2,4},
+{11},
+{3},
+{4},
 {6,7,6,8},
-{2,0},
+{11},
 {},
 {},
 {},
-{10,2},
-{9,2}
+{11},
+{11},
+{2,9,10,0},
 }
 
 -- victor grey
@@ -432,9 +496,10 @@ if he ever comes back.",
 "amelia, the postwoman? she is\
 a nice girl. far more clever\
 that she sounds. she managed\
-to bring the mail to here. i\
-think she likes me.",
-"roy mustang. he told me\
+to bring the mail here to see\
+me more often. i think she\
+likes me.",
+"rOY mUSTANG. he told me\
 that's nothing, that he\
 doesn't even remember what\
 these packages were. but i\
@@ -443,17 +508,18 @@ considers it is a big problem.",
 "i mean... that's possible, of\
 course. but i don't think so.\
 she has always been honest\
-with me. that's a rare quality.",
+with me. that's a rare\
+quality.",
 "i don't see him much. always\
 working in his greenhouse,\
-night and day. he received a\
-lot of fertilizer, recently.\
+night and day. he received\
+lots of fertilizer, recently.\
 probably for his experiments.\
-he wants to impress mustang\
+he wants to impress mUSTANG\
 but the colonel doesn't give\
 him much attention.",
 "no. i don't trust alchemists.\
-specially state alchemists.\
+especially state alchemists.\
 and he is too flirtatous with\
 ladies.",
 "beware the old mrs. calvin:\
@@ -463,85 +529,145 @@ but don't angry her by not\
 returning your books to the\
 library. she is probably the\
 least unbearable state\
-alchemist.",
+alchemist. she is secretive.\
+i think there is an hidden\
+room somewhere in her\
+library...",
 "and that's why i hate state\
 alchemists.",
 "no. but i registered them\
 when they arrived. one came\
 from a library from east city.\
-it was an alchemist book about\
+it was an alchemy book about\
 explosives, addressed to\
-mustang. the second came in a\
-bag. i didn't open it; maybe\
-electrial wire or ropes? the\
-last was a letter addressed to\
-mustang.",
+mUSTANG. the second one came\
+in a bag. i didn't open it;\
+maybe electrial wire or ropes?\
+the last was a letter addressed\
+to mUSTANG.",
 "it doesn't mean your time is\
 worth more than mine.",
-"okay. i can maybe get you two\
-minutes of my time. what to\
-you want?"
+"okay. i can maybe give you two\
+minutes of my time.",
+"what to you want?"
 }
 
 aall[4]={
 {"i am a state alchemist!"},
 {"can i help you?",
 "who were the missing packages\
-addressed to?",
-"do you know the postwoman?"},
+addressed to?"},
 {},
-{"she seems to prefer mustang.",
+{"she seems to prefer mUSTANG.",
 "do you think she could be the\
 thief?"},
-{"do you know mustang well?",
-"what can you tell me about\
-the librarian?",
-"so nobody knows what was\
+{"so nobody knows what was\
 inside these packages?"},
-{"who were the missing packages\
-addressed to?"},
-{"do you know the blonde girl?",
-"do you know mustang well?",
-"what can you tell me about\
-the librarian?",
-"who were the missing packages\
-addressed to?"},
-{"do you know the blonde girl?",
-"what do you think of the\
-apprentice?"},
-{"what do you think of the\
-apprentice?",
-"do you know mustang well?"},
 {},
-{"do you know mustang well?",
-"do you know the blonde girl?"},
+{},
+{},
+{},
+{},
+{},
+{},
 {},
 {"you seem worried.",
 "do you know the blonde girl?",
 "what do you think of the\
 apprentice?",
-"do you know mustang well?",
+"do you know mUSTANG well?",
 "what can you tell me about\
 the librarian?"}
 }
 
 pall[4]={
 {12,0},
-{3,5,4},
+{3,5},
 {},
-{10,6,0},
-{8,9,11},
-{5,0},
-{4,8,9,5,0},
-{4,7},
-{7,8},
+{10,6},
+{11},
+{14},
+{14},
+{14},
+{14},
 {},
-{8,4,0},
+{14},
 {},
-{2,4,7,8,9}
+{14},
+{2,4,7,8,9},
 }
 
-dall[1000]={"    == equivalent exchange ==\
+dall[5]={
+"hello, dear! it's rare to see\
+a new face around here.",
+"what are you interested in?",
+"why the past tense? i am\
+still a powerful alchemist!\
+specialized in all kind of\
+explosives. in fact, i still\
+help victor to verify that\
+the packages we received are\
+not booby-trapped.",
+"he is very ambitious, yet he\
+is a good leader. but don't\
+trust him too much.",
+"of course! he could not harm\
+anyone. he is very sweet with\
+everyone and he brings me\
+cookies once in a while. i\
+love to chat with him. i even\
+offered him one of my books.",
+"i call him grumpy, he calls\
+me an old bat. we like each\
+other.\
+he is secretive. did you know\
+he has a secret room?",
+"oh, dear! where was it?",
+"he is so forgetful! it's a\
+rare book about large scale\
+transmutation. thank you for\
+bringing it back. how can i\
+thank you? i know! here: take\
+this alchemy-fueled camera!\
+it's an expansive gift.",
+"before doing that, you'd have\
+to tell me all about your\
+interests. only then i could\
+make a relevant recommendation\
+for you."
+}
+aall[5]={
+{},
+{"can you recommend me a book?",
+"i was told you were a\
+powerful alchemist.",
+"what do you think of mustang?",
+"should i trust the\
+apprentice?",
+"do you like the mail manager?"
+},
+{},
+{},
+{},
+{},
+{"in oWEN's room."},
+{"thank you!"},
+{"let's not do that."}
+}
+
+pall[5]={
+{2},
+{9,3,4,5,6,0},
+{2},
+{2},
+{2},
+{2},
+{8},
+{},
+{2}
+}
+
+dall[1000]={"  == equivalent exchange ==\
 \
 alchemy is the science of\
 transmutation. and as all\
@@ -549,12 +675,12 @@ science, it follows rules.\
 alchemy follows the principle\
 of equivalent exchange: in\
 order to obtain or create\
-something, something or equal\
+something, something of equal\
 value must be lost or\
 destroyed."}
 
 dall[1001]={
-"    == alchemy: lesson 4 ==\
+"  == alchemy: lesson 4 ==\
 \
 transmutation is a sequence\
 of three steps:\
@@ -574,7 +700,13 @@ ingredients he needs."
 pall[1001]={{2}}
 
 dall[1002]={
-"    == combustion ==\
+"to oWEN lOCKE,\
+i wish you a great future.\
+and don't let mUSTANG annoy\
+you.\
+\
+             aMANDA cALVIN",
+"  == combustion ==\
 \
 combustion relies on three\
 ingredients:\
@@ -582,21 +714,16 @@ ingredients:\
 - oxygen\
 - fuel\
 fuel can be wood, alcohol,\
-natural gaz, oil,...\
+natural gas, oil,...\
 explosives are based on\
 phosphorus or sulfur."
 }
+pall[1002]={{2}}
 
 names[1003]="a gray book"
 dall[1003]={
 "that's the gray book that is\
-missing!\
-\
-you take it with you.",
-"you find an old key hidden\
-inside."}
-pall[1003]={{2}}
-aall[1003]={{"(open the book)"}}
+missing!"}
 
 names[1004]="a key"
 dall[1004]={
@@ -605,12 +732,18 @@ master key.\
 \
 you take it with you."}
 
+names[1005]="a key"
+dall[1005]={
+"you find an old rusty key.\
+\
+you take it with you."}
+
 names[1010]="a note on the entrance"
 dall[1010]={
 "alchemy library\
 \
 return your books in time or\
-suffer wy wrath.\
+suffer my wrath.\
 \
 mRS. cALVIN"}
 
@@ -628,7 +761,7 @@ names[1012]="a sealed letter"
 dall[1012]={
 "rOY,\
 \
-i don't know why you so seem\
+i don't know why you seem\
 so interested in books about\
 explosive transmutation. you\
 should probably be the one\
@@ -648,8 +781,7 @@ dall[1013]={
 
 names[1014]="a pile of files"
 dall[1014]={
-"the files mustang wants me to\
-process. no way."}
+"a very high pile of the files."}
 
 names[1015]="a note on the wall"
 dall[1015]={"if i'm not here, ring the\
@@ -659,7 +791,7 @@ v.gREY.\
 ps: there is no bell."}
 
 names[1016]="a pile of receipts"
-dall[1016]={"some signatures are missing."}
+dall[1016]={"nothing interesting here."}
 
 names[1017]="some drawings"
 dall[1017]={"a sketch of a transmutation\
@@ -676,12 +808,10 @@ dall[1021]={
 window. as soon as she sees\
 you, she hides."}
 
-names[1022]="some bottles"
+names[1022]="a grey book"
 dall[1022]={
-"\"l'authentique bouteille de\
-vin.\"\
-sounds fancy. i am pretty sure\
-alcohol is forbidden here..."}
+"i have no reason yet to check\
+this book."}
 
 names[1023]="a sack of fertilizer"
 dall[1023]={
@@ -744,7 +874,7 @@ why not take it?"}
 
 names[1036]="a heavy box"
 dall[1036]={
-"that wood seem breakable. with\
+"that wood seems breakable. with\
 some tool, you could open it."}
 
 names[1037]="a heavy box"
@@ -753,6 +883,32 @@ dall[1037]={
 crowbar. it explodes!",""}
 aall[1037]={{"die?"}}
 pall[1037]={{2}}
+
+names[1038]="an alchemy-fueled\
+coffee machine"
+dall[1038]={
+"coffee?",
+"milk?",
+"sugar?",
+"sugar?",
+"caution: it's hot.",
+"caution: it's hot.",
+"you remember you hate coffee.",
+"just like mUSTANG likes it."}
+aall[1038]={
+{"yes","no"},
+{"yes","no"},
+{"no","one sugar cube","two sugar cubes"},
+{"no","one sugar cube","two sugar cubes"},
+}
+pall[1038]={
+{2},
+{4,3},
+{5,5,5},
+{5,5,5},
+{7},
+{8}
+}
 -->8
 -- draw
 
@@ -798,7 +954,8 @@ function _draw()
 	if(mode==2)	prt_dial(d,a)
 	
 	if mode==3 then
-	 sspr(48,96,3*8,4*8,camx+100,camy+9,3*8,4*8)	
+	 spr(198,camx+100,camy+9,3,3)
+	 spr(246,camx+100,camy+9+3*8,2,1)
 	 sspr(72,104,7*8,3*8,camx+1,camy+10,7*8*2,3*8*2)
 	 if t()%1<.8 then
    print_center("press z to investigate",camx,camy+90,8)
@@ -909,8 +1066,8 @@ end
  {nbspr=64,id=1020,x=33,y=6},
  {nbspr=66,x=34,y=6},
  -- postwoman window
- {nbspr=65,id=1021,x=31,y=13},
- {nbspr=66,x=32,y=13},
+ {nbspr=65,id=1021,x=32,y=13},
+ {nbspr=66,x=33,y=13},
  -- alchemist room
  {nbspr=65,x=19,y=2},
  {nbspr=66,x=20,y=2},
@@ -926,6 +1083,15 @@ end
 -- library entrance
  {nbspr=240,id=1010,x=22,y=17},
   
+  
+ -- fertilizer
+ {nbspr=166,id=1023,x=48,y=4},
+ {nbspr=167,id=1023,x=38,y=6},
+ {nbspr=167,id=1023,x=43,y=4,f=true},
+ {nbspr=168,id=1023,x=60,y=8},
+ {nbspr=168,id=1023,x=42,y=5,f=true},
+
+  
  -- outside boxes
  {nbspr=71,x=42,y=10},
  {nbspr=55,x=42,y=9},
@@ -933,6 +1099,7 @@ end
  {nbspr=55,x=64,y=4},
  {nbspr=55,x=42,y=5},
  {nbspr=71,x=42,y=6},
+ {nbspr=70,x=32,y=15},
  {nbspr=70,x=42,y=7},
  {nbspr=70,x=42,y=4},
  {nbspr=70,x=53,y=2},
@@ -1043,7 +1210,7 @@ end
  {nbspr=171,x=57,y=8,f=true},
  
  -- wine
- {nbspr=-1,id=1022,x=119,y=8},
+ {nbspr=-1,id=906,x=119,y=8},
 
 -- office book
  {nbspr=241,id=1000,x=17,y=8},
@@ -1062,13 +1229,6 @@ end
 -- greenhouse
  {nbspr=243,id=1017,x=58,y=8},
  
- -- fertilizer
- {nbspr=166,id=1023,x=48,y=4},
- {nbspr=167,id=1023,x=38,y=6},
- {nbspr=167,id=1023,x=43,y=4,f=true},
- {nbspr=168,id=1023,x=60,y=8},
- {nbspr=168,id=1023,x=42,y=3,f=true},
-
  -- watering
  {nbspr=155,id=903,x=56,y=4},
 
@@ -1098,6 +1258,9 @@ end
  {nbspr=173,x=51,y=5},
  {nbspr=173,x=53,y=5},
  {nbspr=173,x=52,y=7,f=true},
+
+ {nbspr=38,id=1038,x=42,y=13},
+ {nbspr=248,x=42,y=12},
  
  -- trees
  {nbspr=56,x=91,y=6},
@@ -1187,13 +1350,17 @@ end
  st_crowbar=true
  st_final_dial=false
  st_letter=false
+ st_missing=false
+ st_know_wbook=false
+ st_camera=false
+ st_coffee=false
 
  -- npc
  mustang={id=1,x=34,y=9}
  add(npc,mustang)
  calvin={id=5,x=9,y=23}
  add(npc,calvin)
- amelia={id=2,x=31,y=14,f="up"}
+ amelia={id=2,x=32,y=14,f="up"}
  add(npc,amelia)
  grey={id=4,x=45,y=13,f=true}
  add(npc,grey)
@@ -1204,6 +1371,8 @@ end
  add(npc,letter)
  key_g={nbspr=245,id=1004,x=120,y=10}
  add(npc,key_g)
+ key_l={nbspr=245,id=1005,x=31,y=14}
+ add(npc,key_l)
  door_g={nbspr=-1,id=1025,x=60,y=5}
  add(npc,door_g)
  door_g2={nbspr=-1,id=1032,x=49,y=3}
@@ -1212,7 +1381,7 @@ end
  add(npc,door_l)
  flag_l={nbspr=54,id=905,x=8,y=13}
  add(npc,flag_l)
- wbook={nbspr=242,id=1003,x=109,y=25}
+ wbook={nbspr=242,id=1022,x=109,y=25}
  add(npc,wbook)
  crowbar={nbspr=181,id=1035,x=97,y=8}
  add(npc,crowbar)
@@ -1225,10 +1394,34 @@ end
  add(npc,f3)
 
 function check_update(chat,nb)
- if st_key_g and chat==1025 then
+ if not st_missing and chat==4 and nb==2 then
+  st_missing=true
+  add(aall[3][11],"do you know anything about\
+some missing mail?",2)  
+  add(pall[3][11],5,2)
+ elseif chat==1 and nb==3 then
+  pall[1038][4][2]=6
+ elseif chat==1 and nb==7 then
+  st_coffee=true
+ elseif st_coffee and chat==1 and nb==8 then
+  st_photo=true
+  return 1,9
+ elseif chat==1038 and nb==8 then
+  aall[1][1][1]="here is your coffee."
+  pall[1][1][1]=7
+ elseif not st_know_wbook and chat==1011 then
+  st_know_wbook=true
+ elseif not st_camera and chat==5 and nb==8 then
+  st_camera=true
+  add(aall[1][1],"can i photograph you?")
+  add(pall[1][1],8)
+ elseif st_key_g and chat==1025 then
   mset(60,5,229)
   del(npc,door_g)
   return 1031,1
+ elseif not st_key_l and chat==1005 then
+  st_key_l=true
+  del(npc,key_l)
  elseif not st_key_g and chat==1004 then
   st_key_g=true
   del(npc,key_g)
@@ -1251,10 +1444,13 @@ function check_update(chat,nb)
   del(npc,letter)
   st_letter=true
   add(aall[1][1],"i found a strange letter\
-from grumman")
-  add(pall[1][1],5)
+from gRUMMAN",3)
+  add(pall[1][1],6,3)
+ elseif st_know_wbook and chat==1022 then
+  add(aall[5][2],"i found your grey book!",6)
+  add(pall[5][2],7,6)
+  return 1003,1
  elseif chat==1003 then
-  st_key_l=true
   del(npc,wbook)
  elseif not st_crowbar and chat==1035 then
   st_crowbar=true
@@ -1358,13 +1554,14 @@ function draw_circle(doall)
  if(doall) dt=100
  
  if dt>t11 then
+  local r=min(10,(dt-t11)/(t1-t11)*10)
   for i=-1,1 do
    for j=1,5 do
-    circ(pts[j].x,pts[j].y,10+i,2)
+    circ(pts[j].x,pts[j].y,r+i,2)
    end
   end
   for j=1,5 do
-   circ(pts[j].x,pts[j].y,10,8)
+   circ(pts[j].x,pts[j].y,r,8)
   end
  end
  
@@ -1400,25 +1597,21 @@ function draw_circle(doall)
 end
 
 fire={{x=40,y=20,t=9*rnd()},
-{x=43,y=13,t=9*rnd()},
 {x=46,y=13,t=9*rnd()},
 {x=40,y=14,t=9*rnd()},
 {x=42,y=19,t=9*rnd()},
 {x=38,y=21,t=9*rnd()},
-{x=48,y=13,t=9*rnd()},
 {x=44,y=22,t=9*rnd()},
 {x=36,y=20,t=9*rnd()},
 {x=41,y=22,t=9*rnd()},
-{x=42,y=15,t=9*rnd()},
 {x=38,y=15,t=9*rnd()},
 {x=40,y=17,t=9*rnd()},
 {x=50,y=14,t=9*rnd()},
-{x=43,y=19,t=9*rnd()},
 {x=41,y=10,t=9*rnd()},
 {x=46,y=10,t=9*rnd()}}
 
 expl={}
-for i=1,8 do
+for i=1,3 do
  add(expl,{x=8*36+rnd(8*16),y=10*8+rnd(8*13),r=rnd(8)})
 end
 
@@ -1459,14 +1652,14 @@ __gfx__
 00000000ee1171eeeeddfdeeee2222eeeeccfceeee4444eeeedddddeee11111eee11111eee11111eee11111eee11f1eeee1f11eeee11f1eeee111feeeee66fee
 00000000ee1111eeeeddddeeee2222eeeecccceeee4e24eeeedddddeee11111eee11111eee11111eee11111eee1111eeee1111eeee1111eeee1111eeeee666ee
 00000000eee442eeeee442eeeeedd1eeeeedd1eeee4ee4eeee22e44eee22e44eeeeee44eee22e44eee22eeeeeee442eeee44e22eeee244eeee22e44eeeeed1ee
-65555555655555557777777777777777777777777000000077777777000000077000000777777777777777777777777751551115565565562525252551111111
-56555555565555556666666664444466dddddddd7000000070000007000000077000000770000000000000000000000711555511556555652555555515111111
-55655555556555556666666664111466dddddddd7000000070000007000000077000000770000000000000000000000715555555555656552555555511511111
-55565555555655556666666664111466dddddddd7000000070000007000000077000000770000000000000000000000715555555555565552555555511151111
-55656555556565556666666664444466dddddddd7000000070000007000000077000000770000000000000000000000755555551555655555252525211515111
-56555655524242456666666662444466dddddddd7000000070000007000000077000000770000000000000000000000755555551556565555555255515111511
-65555565642424256666666664444466dddddddd7000000070000007000000077000000770000000000000000000000711555511565556555555255551111151
-5555555652424246ddddddddd44444dd111111117000000070000007000000077000000770000000000000000000000751115515655655655555255511111115
+655555556555555577777777777777777777777770000000e5666665000000077000000777777777777777777777777751551115565565562525252551111111
+56555555565555556666666664444466dddddddd70000000e5664665000000077000000770000000000000000000000711555511556555652555555515111111
+55655555556555556666666664111466dddddddd70000000e5555555000000077000000770000000000000000000000715555555555656552555555511511111
+55565555555655556666666664111466dddddddd70000000eeeeeeee000000077000000770000000000000000000000715555555555565552555555511151111
+55656555556565556666666664444466dddddddd70000000eeeeeeee000000077000000770000000000000000000000755555551555655555252525211515111
+56555655524242456666666662444466dddddddd70000000eeeeeeee000000077000000770000000000000000000000755555551556565555555255515111511
+65555565642424256666666664444466dddddddd70000000eeeeeeee000000077000000770000000000000000000000711555511565556555555255551111151
+5555555652424246ddddddddd44444dd1111111170000000eeeeeeee000000077000000770000000000000000000000751115515655655655555255511111115
 444444444444444444444444111111111111111111111111ebb7bbbeeeeeeeeeeeee3b3e6000000066166166565565561d11ddd19eeee88888eeee9e66666666
 4444444444dddd44444444441dddddddddddddd11dddddd1e377373eeeeeeeeee33eb4b360000000671111773b355565dd1111dde9e88ee9ee88e9ee6a666666
 4444444444111144444444441dddddddddddddd11dddddd1e337337eeeeeeeee3b3333436000000017176171b3b65655d1111111ee8eee9e9eee8eee66363666
@@ -1566,11 +1759,11 @@ ee22e44eee22e44eee22e44eee22e44e44444444d0000444eeeeeee0880880eeeeeeeeeeeeeee0a9
 eeeeeeeeee3b3b3eeeeeeeeee77e777e66666eeeeeeaeeeeeeeeeee0888880eeeeeeeeeeeeeee0999000a900a90a90e00a900e0a9990a9990a90a900000a9990
 eeeeeeeee83b3b3eeeeeeeeee776777e76867eeeaaa9aeeeeeeeeeee0888880eeeeeeeeeeeee0990990099999999990a999990a9999099990999990a90a99990
 e55ee77ee8eeeeeeeeeeeeeee77666ee77777eeea9eaeeeeeeeeeeeee0088880eeeeeeeeeeee099099009900990099099009909900009900099000099099000e
-e577e77eee8eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088080eeeeeeeeeee099009900990099009099999990999900990e0990ee099099990e
-e577e77eeeeeeeeeeeeee55eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0888880eeeeeeeeeee099999909900990099099000000009990990e0990ee0990009990
-ee77eeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088880eeeeeeeeeee09900099099009900990099009090009909990090eee0909000990
-eeeeeeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0880eeeeeeeeeeee0990e099999009900990099999099999009990990ee0990999990e
-eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00eeeeeeeeeeeeee00eee00000ee00ee00ee00000e00000ee000e00eeee00e00000ee
+e577e77eee8eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088080ee66666eeee099009900990099009099999990999900990e0990ee099099990e
+e577e77eeeeeeeeeeeeee55eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0888880ee66666eeee099999909900990099099000000009990990e0990ee0990009990
+ee77eeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088880ee6555556ee09900099099009900990099009090009909990090eee0909000990
+eeeeeeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0880eee6577756ee0990e099999009900990099999099999009990990ee0990999990e
+eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00eeee5667665eee00eee00000ee00ee00ee00000e00000ee000e00eeee00e00000ee
 __label__
 00000000000000000000000000000000000000000000000000000755656555556565555565655555656555556565555565655555656555556565555565655555
 00000000000000000000000000000000000000000000000000000756555655565556555655565556555655565556555655565556555655565556555655565556
@@ -1702,8 +1895,8 @@ b7002222002222220022220022220022220000222200000000222200000022220000222200222200
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 __gff__
-0000000000000000000000000000000001000000000000000000000000000000010100000000000000000000010101010000000000000001010100010100000100000000000000000001010101000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001
-0000000000000000000000000001010100000000000000000000000001010001000000000000000000000000000000010000000000000001010000000000010100000000000000000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000000000000000000000000
+0000000000000000000000000000000001000000000000000000000000000000010100000000000000000000010101010000000000000001010100010100000100000000000001000001010101000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001
+0000000000000000000000000001010100000000000000000000010001010001000000000000000000000000000000010000000000000001010000000000010100000000000000000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000000000000000000000000
 __map__
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000000000000027222222222222222222222222222222222222222222222222222222250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
