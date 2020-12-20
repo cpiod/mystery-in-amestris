@@ -44,7 +44,7 @@ function _update60()
   update_move()
  elseif mode==2 then
   update_diag()
- elseif mode==3 then
+ elseif mode==3 or mode==7 then
   update_title()
  elseif mode==4 then
   update_circle()
@@ -137,7 +137,7 @@ slct=1
 faces={80,83,86,89,92}
 faces[9]=128
 names={"rOY mUSTANG\
-state alchemist",
+flame alchemist",
 "aMELIA sMITH\
 postwoman",
 "oWEN lOCKE\
@@ -335,7 +335,58 @@ get it.",
 actually do it, you know.",
 "no.",
 "ok... but only because you\
-brought me coffee."
+brought me coffee.",
+-- 10
+"great, you wake up. you\
+trigger the explosive that\
+was hidden in a box. gladly,\
+owen did install a protective\
+transmutation circle with the\
+red trees. this is impressive\
+work. victor grey is injured\
+but should be yelling at us\
+soon, as usual.",
+"now, you need to tell us what\
+you know. where do the\
+explosives comes from?",
+"probably not. the packages\
+are verified by mRS. cALVIN\
+and vICTOR gREY.",
+"that's also what i think.",
+"who do you think did it?",
+"yes, it was. but anybody\
+could have read her book.\
+oWEN did it.",
+"certainly. and he got the\
+transmutation circle from\
+the book mRS. cALVIN gave him.",
+"no, he isn't that bad. and\
+he doesn't know how to\
+transmute.",
+"how could i save someone from\
+an explosion? that's\
+ridiculous.",
+"yeah, sure.",
+"why did he do that?",
+"i'm not sure why you would\
+think that.",
+"it's unlikely. he doesn't\
+want to harm anybody.",
+"yes, certainly. with an\
+explosion, he could show me\
+this giant transmutation\
+circle with the trees.",
+"congratulations! you solved\
+the case. thank you very much\
+for your help.\
+\
+i still want you to process\
+the late files as soon as\
+you go out of bed, though.",
+"maybe you should have pay\
+more attention...",
+"i don't think he is looking\
+for her attention."
 }
 aall[1]={{
 "of course. do you want a\
@@ -348,7 +399,38 @@ answers."
 {},
 {"who works here?",
 "why am i really here?"},
-{}
+{},
+{},
+{},
+{},
+{}, --10
+{"they were delivered through\
+packages.",
+"they were transmuted in the\
+secret room of the library"},
+{},
+{},
+{"mRS. cALVIN, because it was\
+her transmutation circle.",
+"oWEN lOCKE, because\
+fertilizer is an ingredient\
+of the transmutation.",
+"vICTOR gREY, because he\
+wants to kill every alchemist.",
+"aMELIA sMITH, because she\
+wanted you to save her.",
+"you, because no one expects\
+the good guy of the anime to\
+be evil in a fangame."},
+{},
+{},
+{},
+{},
+{},
+{"to kill me.",
+"to kill vICTOR gREY.",
+"to impress you.",
+"to impress mRS. cALVIN."}
 }
 pall[1]={
 {3,5},
@@ -356,7 +438,28 @@ pall[1]={
 {},
 {5},
 {4,2,0},
-{}}
+{},
+{},
+{},
+{},
+{11},--10
+{12,13},
+{14},
+{14},
+{15,16,17,18,19},
+{20},
+{20},
+{25},
+{25},
+{25},
+{21,22,23,26},
+{25},
+{25},
+{24},
+{200},
+{200},
+{25}
+}
 
 dall[2]={
 "i didn't do anything wrong!",
@@ -389,8 +492,8 @@ missing packages?"},
 pall[2]={
 {2},
 {3,6,7,0},
-{5},
-{2},
+{4},--5
+{100},
 {0},
 {2},
 {2}}
@@ -738,6 +841,10 @@ dall[1005]={
 \
 you take it with you."}
 
+names[1006]=""
+dall[1006]={"she went away, smiling."}
+
+
 names[1010]="a note on the entrance"
 dall[1010]={
 "alchemy library\
@@ -830,9 +937,15 @@ names[1025]="a door"
 dall[1025]={"it's locked."}
 
 names[1026]="a transmutation circle"
-dall[1026]={"you don't recognize this type\
-of transmutation circle. you\
-prefer not to walk over it."}
+dall[1026]={
+"you recognize this\
+transmutation circle from\
+the book of mRS. cALVIN. it\
+is used to transmute\
+explosives!\
+\
+you prefer not to walk over\
+it."}
 
 names[1027]="a tree"
 dall[1027]={"...\
@@ -953,12 +1066,17 @@ function _draw()
 	
 	if(mode==2)	prt_dial(d,a)
 	
-	if mode==3 then
+	if mode==7 or mode==3 then
 	 spr(198,camx+100,camy+9,3,3)
-	 spr(246,camx+100,camy+9+3*8,2,1)
+	 spr(247,camx+108,camy+9+3*8)
 	 sspr(72,104,7*8,3*8,camx+1,camy+10,7*8*2,3*8*2)
-	 if t()%1<.8 then
-   print_center("press z to investigate",camx,camy+90,8)
+	 if mode==3 then
+		 if t()%1<.8 then
+	   print_center("press z to investigate",camx,camy+90,8)
+	  end
+	 else
+	  print_center("the game is over",camx,camy+70,12)
+	  print_center("i hope you liked it!",camx,camy+76,12)
   end
 	 local t="cpiod - 2020"
   print_center(t,camx,camy+120,1)
@@ -1026,7 +1144,7 @@ because of the smoke."
     c=i
    else
     c=i
-    start_dial(1,5)
+    start_dial(1,10)
    end
    pal(i,c,1)
   end
@@ -1239,6 +1357,10 @@ end
  -- front door
  {nbspr=-1,id=902,x=29,y=23},
   
+ -- dynamite
+ {nbspr=246,x=97,y=11},
+ {nbspr=246,x=91,y=8,f=true},
+  
  -- plants
  {nbspr=142,x=59,y=7},
  {nbspr=158,x=59,y=8},
@@ -1347,7 +1469,7 @@ end
  st_white_b=false
  st_flag=false
  st_lost_pkg=false
- st_crowbar=true
+ st_crowbar=false
  st_final_dial=false
  st_letter=false
  st_missing=false
@@ -1394,7 +1516,12 @@ end
  add(npc,f3)
 
 function check_update(chat,nb)
- if not st_missing and chat==4 and nb==2 then
+ if chat==1 and nb==200 then
+  mode=7
+  p={x=8000,y=8000,o=0,f=false}
+  camx=title_screen[1].x*8-60
+  camy=title_screen[1].y*8-60
+ elseif not st_missing and chat==4 and nb==2 then
   st_missing=true
   add(aall[3][11],"do you know anything about\
 some missing mail?",2)  
@@ -1415,6 +1542,12 @@ some missing mail?",2)
   st_camera=true
   add(aall[1][1],"can i photograph you?")
   add(pall[1][1],8)
+ elseif chat==1 and nb==8 then
+  aall[2][3][1]="in fact... yes."
+  pall[2][3][1]=4
+ elseif chat==2 and nb==100 then
+  del(npc,amelia)
+  return 1006,1
  elseif st_key_g and chat==1025 then
   mset(60,5,229)
   del(npc,door_g)
@@ -1449,9 +1582,8 @@ from gRUMMAN",3)
  elseif st_know_wbook and chat==1022 then
   add(aall[5][2],"i found your grey book!",6)
   add(pall[5][2],7,6)
-  return 1003,1
- elseif chat==1003 then
   del(npc,wbook)
+  return 1003,1
  elseif not st_crowbar and chat==1035 then
   st_crowbar=true
   del(npc,crowbar)
@@ -1498,7 +1630,7 @@ function update_title()
   title_index=i2
  end
 
- if btnp(🅾️) then
+ if mode==3 and btnp(🅾️) then
   mode=1
   p={x=29*8,y=(22+5)*8,o=0,f=false}
   p.ox=p.x
@@ -1756,13 +1888,13 @@ ee11111eee91119eee11111eee91119e2777767260000444eeeeee000888880eeeeeeeeeeeeeeeee
 eef111feeef11f1eeef111feee1f11fe9776677960000442eeeeeee0888880eeeeeeeeeeeeeeeee000e00eeeeeeee099099090eeeeeeeeeeee00eeee00eeeeee
 ee11111eee22111eee11111eee11144e4999999460000444eeeeeee0880880eeeeeeeeeeeeeeee0a90eeeeeeeeeee099099090eeeeeee00eeeeeeee0a90eeeee
 ee22e44eee22e44eee22e44eee22e44e44444444d0000444eeeeeee0880880eeeeeeeeeeeeeee0a990ee00ee00e00e0000000ee0000e0a90e00e00e09900000e
-eeeeeeeeee3b3b3eeeeeeeeee77e777e66666eeeeeeaeeeeeeeeeee0888880eeeeeeeeeeeeeee0999000a900a90a90e00a900e0a9990a9990a90a900000a9990
-eeeeeeeee83b3b3eeeeeeeeee776777e76867eeeaaa9aeeeeeeeeeee0888880eeeeeeeeeeeee0990990099999999990a999990a9999099990999990a90a99990
-e55ee77ee8eeeeeeeeeeeeeee77666ee77777eeea9eaeeeeeeeeeeeee0088880eeeeeeeeeeee099099009900990099099009909900009900099000099099000e
+eeeeeeeeee3b3b3eeeeeeeeee77e777e66666eeeeeeaeeeeee28889e088880eeeeeeeeeeeeeee0999000a900a90a90e00a900e0a9990a9990a90a900000a9990
+eeeeeeeee83b3b3eeeeeeeeee776777e76867eeeaaa9aeeee28889000888880eeeeeeeeeeeee0990990099999999990a999990a9999099990999990a90a99990
+e55ee77ee8eeeeeeeeeeeeeee77666ee77777eeea9eaeeeeee288890e0088880eeeeeeeeeeee099099009900990099099009909900009900099000099099000e
 e577e77eee8eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088080ee66666eeee099009900990099009099999990999900990e0990ee099099990e
-e577e77eeeeeeeeeeeeee55eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0888880ee66666eeee099999909900990099099000000009990990e0990ee0990009990
-ee77eeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee088880ee6555556ee09900099099009900990099009090009909990090eee0909000990
-eeeeeeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0880eee6577756ee0990e099999009900990099999099999009990990ee0990999990e
+e577e77eeeeeeeeeeeeee55eeeeeeeeeeeeeeeeeeeeeeeeee28889e0e0888880ee66666eeee099999909900990099099000000009990990e0990ee0990009990
+ee77eeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeee2888900ee088880ee6555556ee09900099099009900990099009090009909990090eee0909000990
+eeeeeeeeeeeeeeeeeeeee66eeeeeeeeeeeeeeeeeeeeeeeeee28889eeee0880eee6577756ee0990e099999009900990099999099999009990990ee0990999990e
 eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee00eeee5667665eee00eee00000ee00ee00ee00000e00000ee000e00eeee00e00000ee
 __label__
 00000000000000000000000000000000000000000000000000000755656555556565555565655555656555556565555565655555656555556565555565655555
@@ -1895,7 +2027,7 @@ b7002222002222220022220022220022220000222200000000222200000022220000222200222200
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 
 __gff__
-0000000000000000000000000000000001000000000000000000000000000000010100000000000000000000010101010000000000000001010100010100000100000000000001000001010101000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001
+0000000000000000000000000000000001000000000000000000000000000000010100000000000000000000010101010000000000000001010100010100000100000000000000000001010101000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000001
 0000000000000000000000000001010100000000000000000000010001010001000000000000000000000000000000010000000000000001010000000000010100000000000000000000000000000000000000000001000000000000000000000000000000010000000000000000000000000000000000000000000000000000
 __map__
 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
